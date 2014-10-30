@@ -11,7 +11,7 @@ public class CameraPlayerScript : MonoBehaviour {
 
 	protected bool is3rdPerson = true;
 
-	void Update()
+	void FixedUpdate()
 	{
 		if (Input.GetKeyUp (KeyCode.LeftControl)) {
 			is3rdPerson = !is3rdPerson;
@@ -19,11 +19,12 @@ public class CameraPlayerScript : MonoBehaviour {
 		if (enabled) {
 			if(is3rdPerson){
 				transform.LookAt(target.transform.position);
+				Vector3 newPosition = transform.position;
 				if(Vector3.Distance(transform.position, target.transform.position) > cameraDistance){
-					Vector3 newPosition = transform.position + (transform.forward * smoothness * Time.deltaTime);
-					newPosition.y = target.transform.position.y + cameraHeight;
-					transform.position = newPosition;
+					newPosition = transform.position + (transform.forward * smoothness * Time.deltaTime);
 				}
+				newPosition.y = target.transform.position.y + cameraHeight;
+				transform.position = newPosition;
 			}else{
 				Vector3 newPosition = target.transform.position;
 				newPosition.y = target.transform.position.y + cameraHeight;
